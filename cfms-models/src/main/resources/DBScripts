@@ -30,7 +30,7 @@ CREATE TABLE CMFSBranches (
     CashewKernals BIGINT DEFAULT 0,
     NutShells BIGINT DEFAULT 0,
     TotWorkers BIGINT DEFAULT 0,
-    CONSTRABIGINT fk_agent FOREIGN KEY (AgentId) REFERENCES CMFSAgents(Id)
+    CONSTRAINT fk_agent FOREIGN KEY (AgentId) REFERENCES CMFSAgents(Id)
 );
 
 
@@ -46,7 +46,7 @@ CREATE TABLE Workers (
     JoiningDate DATE,
     LastSalariedDate DATE,
     LastSalary DECIMAL(10, 2),
-    CONSTRABIGINT fk_branch_worker FOREIGN KEY (BranchId) REFERENCES CMFSBranches(Id)
+    CONSTRAINT fk_branch_worker FOREIGN KEY (BranchId) REFERENCES CMFSBranches(Id)
 );
 
 CREATE TABLE CashewNutRequest (
@@ -56,7 +56,7 @@ CREATE TABLE CashewNutRequest (
     requestDate DATE,
     fromPlace VARCHAR(100),
     toBranchId BIGINT,
-    CONSTRABIGINT fk_branch_request FOREIGN KEY (toBranchId) REFERENCES CMFSBranches(Id)
+    CONSTRAINT fk_branch_request FOREIGN KEY (toBranchId) REFERENCES CMFSBranches(Id)
 );
 
 
@@ -66,7 +66,7 @@ CREATE TABLE KernelsNutShells (
     nutShellUnits BIGINT DEFAULT 0,
     updateDate DATE,
     BranchId BIGINT,
-    CONSTRABIGINT fk_branch_kernels FOREIGN KEY (BranchId) REFERENCES CMFSBranches(Id)
+    CONSTRAINT fk_branch_kernels FOREIGN KEY (BranchId) REFERENCES CMFSBranches(Id)
 );
 
 
@@ -77,5 +77,5 @@ CREATE TABLE KernalsRelease (
     releaseDate DATE,
     toPlace VARCHAR(100),
     fromBranchId BIGINT,
-    CONSTRABIGINT fk_branch_kr FOREIGN KEY (fromBranchId) REFERENCES CMFSBranches(Id)
+    CONSTRAINT fk_branch_kr FOREIGN KEY (fromBranchId) REFERENCES CMFSBranches(Id)
 );
