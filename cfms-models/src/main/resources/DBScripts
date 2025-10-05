@@ -1,0 +1,81 @@
+Tables :
+1) CMFSAgents : Id(Auto Generated)(PK), Code(UK), Name, Age, Gender, Phone(UK), Email(UK), Address
+2) CMFSBranches : Id(Auto Generated)(PK),Code(UK), Name, Address, AgentId(FK from CMFSAgents), CashewNuts, CashewKernals, NutShells, TotWorkers
+3) Workers : Id(Auto Generated)(PK), Name, Age, Gender, Phone, Email, BranchId(FK from CMFSBranches), JoiningDate, LastSalariedDate, LastSalary
+4) CashewNutRequest : Id(Auto Generated)(PK), totUnits, amount, requestdate, fromPlace, toBranchId(FK from CMFSBranches)
+5) KernelsNutShells : Id(Auto Generated)(PK), kernalUnits,NutShellUnits, updatedate, Branch(FK from CMFSBranches)
+6) KernalsRelease : Id(Auto Generated)(PK), totUnits, amount, releasedate, toPlace, frombranch(FK from CMFSBranches)
+7) NutShellsRelease : Id(Auto Generated)(PK), totUnits, amount, releasedate, toPlace, frombranch(FK from CMFSBranches)
+
+
+CREATE TABLE CMFSAgents (
+    Id SERIAL PRIMARY KEY,
+    Code VARCHAR(50) UNIQUE NOT NULL,
+    Name VARCHAR(100) NOT NULL,
+    Age INT,
+    Gender VARCHAR(10),
+    Phone VARCHAR(20) UNIQUE,
+    Email VARCHAR(100) UNIQUE,
+    Address TEXT
+);
+
+
+CREATE TABLE CMFSBranches (
+    Id SERIAL PRIMARY KEY,
+    Code VARCHAR(50) UNIQUE NOT NULL,
+    Name VARCHAR(100) NOT NULL,
+    Address TEXT,
+    AgentId BIGINT,
+    CashewNuts BIGINT DEFAULT 0,
+    CashewKernals BIGINT DEFAULT 0,
+    NutShells BIGINT DEFAULT 0,
+    TotWorkers BIGINT DEFAULT 0,
+    CONSTRABIGINT fk_agent FOREIGN KEY (AgentId) REFERENCES CMFSAgents(Id)
+);
+
+
+
+CREATE TABLE Workers (
+    Id SERIAL PRIMARY KEY,
+    Name VARCHAR(100) NOT NULL,
+    Age INT,
+    Gender VARCHAR(10),
+    Phone VARCHAR(20),
+    Email VARCHAR(100),
+    BranchId BIGINT,
+    JoiningDate DATE,
+    LastSalariedDate DATE,
+    LastSalary DECIMAL(10, 2),
+    CONSTRABIGINT fk_branch_worker FOREIGN KEY (BranchId) REFERENCES CMFSBranches(Id)
+);
+
+CREATE TABLE CashewNutRequest (
+    Id SERIAL PRIMARY KEY,
+    totUnits BIGINT NOT NULL,
+    amount DECIMAL(10, 2),
+    requestDate DATE,
+    fromPlace VARCHAR(100),
+    toBranchId BIGINT,
+    CONSTRABIGINT fk_branch_request FOREIGN KEY (toBranchId) REFERENCES CMFSBranches(Id)
+);
+
+
+CREATE TABLE KernelsNutShells (
+    Id SERIAL PRIMARY KEY,
+    kernalUnits BIGINT DEFAULT 0,
+    nutShellUnits BIGINT DEFAULT 0,
+    updateDate DATE,
+    BranchId BIGINT,
+    CONSTRABIGINT fk_branch_kernels FOREIGN KEY (BranchId) REFERENCES CMFSBranches(Id)
+);
+
+
+CREATE TABLE KernalsRelease (
+    Id SERIAL PRIMARY KEY,
+    totUnits BIGINT,
+    amount DECIMAL(10, 2),
+    releaseDate DATE,
+    toPlace VARCHAR(100),
+    fromBranchId BIGINT,
+    CONSTRABIGINT fk_branch_kr FOREIGN KEY (fromBranchId) REFERENCES CMFSBranches(Id)
+);
